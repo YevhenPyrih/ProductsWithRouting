@@ -13,10 +13,12 @@ namespace ProductsWithRouting.Controllers
     public class ProductsController : Controller
     {
         private List<Product> myProducts;
+        private int nextId= 0;
 
         public ProductsController(Data data)
         {
             myProducts = data.Products;
+            nextId += myProducts.Count + 1;
         }
 
         [Route("[controller]/[action]")]
@@ -87,7 +89,8 @@ namespace ProductsWithRouting.Controllers
         [Route("[controller]/new")]
         public IActionResult Create()
         {
-            ViewBag.Index = myProducts.Count+1;
+            ViewBag.Index = nextId;
+            nextId++;
             return View(new Product());
         }
 
