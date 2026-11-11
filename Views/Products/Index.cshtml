@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ProductsWithRouting.Models.Product>
+
+@{
+    ViewData["Title"] = "View";
+    bool isIdFilterValid = ViewBag.FilterId != null && ViewBag.FilterId != 0;
+    bool isNameFilterValid = !string.IsNullOrEmpty(ViewBag.FilterName);
+    IEnumerable<ProductsWithRouting.Models.Product> filteredProducts = Model;
+
+    if (isIdFilterValid)
+    {
+        filteredProducts = filteredProducts.Where(p => p.Id == ViewBag.FilterId);
+    }
+    if (isNameFilterValid)
+    {
+        filteredProducts = filteredProducts.Where(p => p.Name.ToLower().Contains(ViewBag.FilterName.ToLower()));
+    }
+}
+
+<h1>View</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in filteredProducts) {
+
+            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Products", new { item.Id })  |
+                @Html.ActionLink("View", "View", "Products", new { item.Id })  |
+                @Html.ActionLink("Delete", "Delete", "Products", new { item.Id })
+            </td>
+        </tr>    
+}
+    </tbody>
+</table>
