@@ -13,12 +13,12 @@ namespace ProductsWithRouting.Controllers
     public class ProductsController : Controller
     {
         private List<Product> myProducts;
-        private int nextId= 0;
+        private static int nextId= 0;
 
         public ProductsController(Data data)
         {
             myProducts = data.Products;
-            nextId += myProducts.Count + 1;
+            nextId = myProducts.Count + 1 > nextId ? myProducts.Count + 1 : nextId;
         }
 
         [Route("[controller]/[action]")]
